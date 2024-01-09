@@ -34,14 +34,16 @@ async def read_root():
 </head>
 <body>
 <h1>Other 2 IP's</h1>
-<div id="data-container"></div>
+<div id="data-container1">INSTANCE B</div>
+<div id="data-container2">INSTANCE C</div>
+
 
 <script>
-    document.addEventListener("DOMContentLoaded", fetchData);
+    document.addEventListener("DOMContentLoaded", fetchData1);
 
-    function fetchData() {
+    function fetchData1() {
         // Replace 'your-api-endpoint' with the actual API endpoint URL
-        fetch('http://127.0.0.1:8000/ip/')
+        fetch('http://18.60.55.247:8000/ip1/')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -49,20 +51,51 @@ async def read_root():
                 return response.json();
             })
             .then(data => {
-                displayData(data);
+                displayData1(data);
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
             });
     }
 
-    function displayData(data) {
-        var dataContainer = document.getElementById('data-container');
+    function displayData1(data) {
+        var dataContainer = document.getElementById('data-container1');
 
         // Assuming the API response is an array of objects with a 'name' property
         data.forEach(item => {
             var paragraph = document.createElement('p');
-            paragraph.textContent = item.client_host;
+            paragraph.textContent = item.client_host1;
+            dataContainer.appendChild(paragraph);
+        });
+    }
+
+   
+document.addEventListener("DOMContentLoaded", fetchData2);
+
+    function fetchData2() {
+        // Replace 'your-api-endpoint' with the actual API endpoint URL
+        fetch('http://18.61.0.200:8000/ip2/')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                displayData2(data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }
+
+    function displayData2(data) {
+        var dataContainer = document.getElementById('data-container2');
+
+        // Assuming the API response is an array of objects with a 'name' property
+        data.forEach(item => {
+            var paragraph = document.createElement('p');
+            paragraph.textContent = item.client_host2;
             dataContainer.appendChild(paragraph);
         });
     }
@@ -94,10 +127,19 @@ async def read_root():
 #     return {'status': 1, 'message': 'ok'}
 
 
-@app.get("/ip/")
-def read_root(request: Request):
-    objects=[]
-    client_host = request.client.host
-    d= {'client_host':client_host}
-    objects.append(d)
-    return objects
+# @app.get("/ip1/")
+# def read_root1(request: Request):
+#     objects=[]
+#     # client_host = request.client.host
+#     d= {'client_host1':'Private IP:172.31.27.168, Public IP: 18.60.55.247'}
+#     objects.append(d)
+#     return objects
+
+
+# @app.get("/ip2/")
+# def read_root2(request: Request):
+#     objects=[]
+#     # client_host = request.client.host
+#     d= {'client_host2':'Private IP:172.31.20.90, Public IP: 18.61.0.200'}
+#     objects.append(d)
+#     return objects
